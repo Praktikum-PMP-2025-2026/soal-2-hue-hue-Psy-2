@@ -1,0 +1,164 @@
+name: Autograding Tests
+
+on:
+  - push
+  - repository_dispatch
+
+permissions:
+  checks: write
+  actions: read
+  contents: read
+
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Case 01 - contoh resmi siklus
+        id: case-01
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: Case 01 - contoh resmi siklus
+          setup-command: gcc -std=c11 -O2 -Wall -Wextra -o soal2 soal2.c
+          command: ./soal2
+          input: "3 3 1 0 2 1 0 2"
+          expected-output: "TIDAK BISA"
+          comparison-method: exact
+          timeout: 2
+          max-score: 10
+
+      - name: Case 02 - tanpa prasyarat
+        id: case-02
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: Case 02 - tanpa prasyarat
+          setup-command: gcc -std=c11 -O2 -Wall -Wextra -o soal2 soal2.c
+          command: ./soal2
+          input: "4 0"
+          expected-output: "BISA"
+          comparison-method: exact
+          timeout: 2
+          max-score: 10
+
+      - name: Case 03 - satu edge valid
+        id: case-03
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: Case 03 - satu edge valid
+          setup-command: gcc -std=c11 -O2 -Wall -Wextra -o soal2 soal2.c
+          command: ./soal2
+          input: "2 1 1 0"
+          expected-output: "BISA"
+          comparison-method: exact
+          timeout: 2
+          max-score: 10
+
+      - name: Case 04 - self loop
+        id: case-04
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: Case 04 - self loop
+          setup-command: gcc -std=c11 -O2 -Wall -Wextra -o soal2 soal2.c
+          command: ./soal2
+          input: "3 1 1 1"
+          expected-output: "TIDAK BISA"
+          comparison-method: exact
+          timeout: 2
+          max-score: 10
+
+      - name: Case 05 - rantai linear
+        id: case-05
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: Case 05 - rantai linear
+          setup-command: gcc -std=c11 -O2 -Wall -Wextra -o soal2 soal2.c
+          command: ./soal2
+          input: "4 3 1 0 2 1 3 2"
+          expected-output: "BISA"
+          comparison-method: exact
+          timeout: 2
+          max-score: 10
+
+      - name: Case 06 - siklus dua simpul
+        id: case-06
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: Case 06 - siklus dua simpul
+          setup-command: gcc -std=c11 -O2 -Wall -Wextra -o soal2 soal2.c
+          command: ./soal2
+          input: "2 2 0 1 1 0"
+          expected-output: "TIDAK BISA"
+          comparison-method: exact
+          timeout: 2
+          max-score: 10
+
+      - name: Case 07 - dua komponen tanpa siklus
+        id: case-07
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: Case 07 - dua komponen tanpa siklus
+          setup-command: gcc -std=c11 -O2 -Wall -Wextra -o soal2 soal2.c
+          command: ./soal2
+          input: "6 4 1 0 2 1 4 3 5 4"
+          expected-output: "BISA"
+          comparison-method: exact
+          timeout: 2
+          max-score: 10
+
+      - name: Case 08 - dua komponen satu siklus
+        id: case-08
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: Case 08 - dua komponen satu siklus
+          setup-command: gcc -std=c11 -O2 -Wall -Wextra -o soal2 soal2.c
+          command: ./soal2
+          input: "6 5 1 0 2 1 4 3 5 4 3 5"
+          expected-output: "TIDAK BISA"
+          comparison-method: exact
+          timeout: 2
+          max-score: 10
+
+      - name: Case 09 - diamond dag
+        id: case-09
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: Case 09 - diamond dag
+          setup-command: gcc -std=c11 -O2 -Wall -Wextra -o soal2 soal2.c
+          command: ./soal2
+          input: "4 4 1 0 2 0 3 1 3 2"
+          expected-output: "BISA"
+          comparison-method: exact
+          timeout: 2
+          max-score: 10
+
+      - name: Case 10 - siklus lebih panjang
+        id: case-10
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: Case 10 - siklus lebih panjang
+          setup-command: gcc -std=c11 -O2 -Wall -Wextra -o soal2 soal2.c
+          command: ./soal2
+          input: "5 5 1 0 2 1 3 2 4 3 1 4"
+          expected-output: "TIDAK BISA"
+          comparison-method: exact
+          timeout: 2
+          max-score: 10
+
+      - name: Autograding Reporter
+        uses: classroom-resources/autograding-grading-reporter@v1
+        env:
+          CASE-01_RESULTS: "${{steps.case-01.outputs.result}}"
+          CASE-02_RESULTS: "${{steps.case-02.outputs.result}}"
+          CASE-03_RESULTS: "${{steps.case-03.outputs.result}}"
+          CASE-04_RESULTS: "${{steps.case-04.outputs.result}}"
+          CASE-05_RESULTS: "${{steps.case-05.outputs.result}}"
+          CASE-06_RESULTS: "${{steps.case-06.outputs.result}}"
+          CASE-07_RESULTS: "${{steps.case-07.outputs.result}}"
+          CASE-08_RESULTS: "${{steps.case-08.outputs.result}}"
+          CASE-09_RESULTS: "${{steps.case-09.outputs.result}}"
+          CASE-10_RESULTS: "${{steps.case-10.outputs.result}}"
+        with:
+          runners: case-01,case-02,case-03,case-04,case-05,case-06,case-07,case-08,case-09,case-10
