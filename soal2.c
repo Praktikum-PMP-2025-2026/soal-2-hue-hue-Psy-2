@@ -79,9 +79,9 @@ int main () {
     memset(misi.prasyarat, -1, sizeof(misi.prasyarat));  
     buildMisi(&misi, N, M);
     if (konflikMelingkar(&misi, N, M)) {
-        printf("BISA\n");
-    } else {
         printf("TIDAK BISA\n");
+    } else {
+        printf("BISA\n");
     }
     return 0;
 }
