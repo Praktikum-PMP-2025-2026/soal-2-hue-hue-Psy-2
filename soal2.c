@@ -73,16 +73,15 @@ int konflikMelingkar (Misi *misi, int N, int M) {
 }
 
 int main () {
-    int N, M ;
+    int N, M;
     scanf("%d %d", &N, &M);
     Misi misi;
-    memset(misi.prasyarat, -1, sizeof(misi.prasyarat));
-    buildMisi(misi, M);
-    if (konflikMelingkar(&misi, N, M)) {
+    memset(misi.prasyarat, -1, sizeof(misi.prasyarat));  //Inisialisasi semua prasyarat dengan -1 untuk menandakan tidak ada prasyarat
+    buildMisi(&misi, M);   //Membangun struktur data misi berdasarkan input
+    if (konflikMelingkar(&misi, N, M)) {   //Memeriksa apakah ada konflik melingkar dalam dependensi misi
         printf("TIDAK BISA\n");
     } else {
         printf("BISA\n");
     }
-    
     return 0;
 }
