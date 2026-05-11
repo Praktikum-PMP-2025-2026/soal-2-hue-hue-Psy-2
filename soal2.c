@@ -46,6 +46,21 @@ int dfs (Misi *misi, int node, int visited[], int recStack[]) {  //Fungsi untuk 
     recStack[node] = 0;   //Hapus node dari recursion stack sebelum kembali
     return 0;   //Tidak ada siklus ditemukan
 }
+void tambahPrasyarat(Misi *misi, int a, int b) {
+    for (int i = 0; i <  MAX_DEPENDENSI; i++) {
+        if (misi->prasyarat[i] == -1) {
+            misi->prasyarat[i] = b;
+            break;
+        }
+    }
+}
+void buildMisi(Misi *misi, int N, int M) {
+    for (int i = 0; i < M; i++) {
+        int a, b;
+        scanf("%d %d", &a, &b);
+        tambahPrasyarat(misi, a, b);
+    }
+}
 int konflikMelingkar (Misi *misi, int N, int M) {
     int visited[MAX_MISI] = {0};
     int recStack[MAX_MISI ] = {0};
@@ -62,9 +77,7 @@ int main () {
     scanf("%d %d", &N, &M);
     Misi misi;
     memset(misi.prasyarat, -1, sizeof(misi.prasyarat));  
-        int a, b;
-        scanf("%d %d", &a, &b);
-        misi.prasyarat[a] = b; 
+    buildMisi(&misi, N, M);
     if (konflikMelingkar(&misi, N, M)) {
         printf("BISA\n");
     } else {
