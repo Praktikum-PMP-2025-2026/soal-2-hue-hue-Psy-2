@@ -54,7 +54,7 @@ void tambahPrasyarat(Misi *misi, int a, int b) {
         }
     }
 }
-void buildMisi(Misi *misi, int N, int M) {
+void buildMisi(Misi *misi, int M) {
     for (int i = 0; i < M; i++) {
         int a, b;
         scanf("%d %d", &a, &b);
@@ -73,15 +73,16 @@ int konflikMelingkar (Misi *misi, int N, int M) {
 }
 
 int main () {
-    int N, M;
+    int N, M ;
     scanf("%d %d", &N, &M);
     Misi misi;
-    memset(misi.prasyarat, -1, sizeof(misi.prasyarat));  
-    buildMisi(&misi, N, M);
+    memset(misi.prasyarat, -1, sizeof(misi.prasyarat));
+    buildMisi(misi, M);
     if (konflikMelingkar(&misi, N, M)) {
         printf("TIDAK BISA\n");
     } else {
         printf("BISA\n");
     }
+    
     return 0;
 }
